@@ -13,7 +13,7 @@ let i = 0;
 // skip if first message of strangers matches this pattern/regex
 let regex = /https?|www|.com|@|ig|insta|snap|whatsapp|wpp/i;
 
-// skip if first message of stranger are one of this messages
+// skip if last message of stranger are one of this messages
 let skipMsgs = [];
 
 // first message that will be sent to stranger
@@ -34,7 +34,7 @@ function executeOmegle() {
     //lastStatus.innerText === "Stranger has disconnected." ||
     lastStatus.innerText.includes("disconnected") ||
     regex.test(msgs[0].innerText) ||
-    skipMsgs.indexOf(msgs[0]) > -1
+    skipMsgs.indexOf(msgs[msgs.length - 1]) > -1
   ) {
     document.querySelector(".disconnectbtn").click();
   }
@@ -47,14 +47,13 @@ function toggleBot() {
     if (omegleBot) {
         clearInterval(omegleBot);
         omegleBot = null;
-        console.log("Bot deactivated.");
+        alert("Bot deactivated.");
     } else {
         omegleBot = setInterval(executeOmegle, 1000);
-        console.log("Bot activated.");
+        alert("Bot activated.");
     }
 }
 
 document.addEventListener("keydown", e => {
     if (e.key === "F2") toggleBot();
 });
-
